@@ -46,8 +46,8 @@ def webhook():
             return jsonify({"error": "Invalid payload"}), 400
 
         # 📌 Step 3: Log Received Data
-        app.logger.info(f"🔗 Received update from: {data['sheetLink']}")
-        app.logger.info(f"📌 Cell A1 changed to: {data['newValue']}")
+        app.logger.info(f"🔗 Received update from: running run_custom_script function")
+        # app.logger.info(f"📌 Cell A1 changed to: {data['newValue']}")
 
         # 🚀 Step 4: Run Custom Processing
         run_custom_script(data)
