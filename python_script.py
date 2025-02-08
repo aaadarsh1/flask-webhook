@@ -13,9 +13,16 @@ SECRET_TOKEN = "your_secret_token"
 # 🚦 Rate Limiting: Max 5 requests per minute per IP
 limiter = Limiter(get_remote_address, app=app, default_limits=["5 per minute"])
 
+from google.oauth2.service_account import Credentials
+
 # 🔑 Load Google Sheets Credentials from Environment Variable
 service_account_info = json.loads(os.getenv("GOOGLE_CREDENTIALS"))
-gc = pygsheets.authorize(custom_credentials=service_account_info)
+
+# ✅ Convert JSON to Google Credentials
+credentials = Credentials.from_service_account_info(service_account_info)
+
+# ✅ Authenticate using pygsheets
+gc = pygsheets.authorize(custom_credentials=credentials)
 
 # 📊 Google Sheets link
 SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1g_oLFRdOzuFxj78xo4waURNWvEvnnoq_ODkRfmtj1Zc/edit?gid=0#gid=0"
