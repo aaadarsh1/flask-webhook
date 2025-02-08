@@ -44,3 +44,36 @@ def run_custom_script(data):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)  # Keep debug=True for logs
+
+
+
+import os
+import json
+import pygsheets
+
+# Load JSON from environment variable
+service_account_info = json.loads(os.getenv("GOOGLE_CREDENTIALS"))
+
+# Authenticate using the JSON credentials
+gc = pygsheets.authorize(service_account_info=service_account_info)
+
+# Google Sheets link
+SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/your_spreadsheet_id/edit#gid=0"
+
+# Open spreadsheet and get the first sheet
+spreadsheet = gc.open_by_url(SPREADSHEET_URL)
+worksheet = spreadsheet.sheet1
+
+# Read data from A1
+cell_value = worksheet.cell('A1').value
+print(f"Value in A1: {cell_value}")
+
+# Write data to A2
+worksheet.update_value('A2', 'Hello from Python on Render!')
+
+# Read all data
+all_data = worksheet.get_all_values()
+print("Sheet Data:", all_data)
+
+
+
