@@ -80,11 +80,7 @@ def run_custom_script(data):
     # Update the specified cell in the Google Sheet
     worksheet.update_value(cell_address, new_value)
 
-if not function_called or not cell_address:
-    app.logger.warning("⚠️ Missing function name or cell address in request")
-    return jsonify({"error": "Missing function name or cell address"}), 400
-
-app.logger.info(f"🚀 Function '{function_called}' was called in cell {cell_address}")
+    app.logger.info(f"🚀 Function '{function_called}' was called in cell {cell_address}")
 
 
 if __name__ == "__main__":
