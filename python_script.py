@@ -58,19 +58,29 @@ def webhook():
         return jsonify({"error": "Invalid JSON"}), 400  # Handle malformed requests
 
 def run_custom_script(data):
-    """Function to handle the data from Google Sheets and update the sheet."""
-    new_value = data["newValue"]
+    """Function to handle the function calls from Google Sheets and update the sheet."""
+    function_called = data.get("functionCalled")
+    cell_address = data.get("cellAddress")
 
-    # Log A1 edit to Render logs
-    app.logger.info(f"🚀 Processing value from A1: {new_value}")
+    if not function_called or not cell_address:
+        app.logger.warning("⚠️ Missing function name or cell address in request")
+        return
 
-    # Read A1 value again (for verification)
-    cell_value = worksheet.cell('A1').value
-    app.logger.info(f"✅ Verified A1 Value: {cell_value}")
+    app.logger.info(f"🚀 Function '{function_called}' was called in cell {cell_address}")
 
-    # Write A1 value to A2
-    worksheet.update_value('A2', cell_value)
-    app.logger.info("✅ Successfully updated A2 with A1's value")
+    # Determine the value to update based on function called
+    if function_called == "fun1":
+        new_value = 4
+    elif function_called == "fun2":
+        new_value = 8
+    else:
+        app.logger.warning(f"⚠️ Unrecognized function '{function_called}' - No action taken")
+        return
+
+    # Update the specified cell in the Google Sheet
+    worksheet.update_value(cell_address, new_value)
+    app.logger.info(f"✅ Updated {cell_address} with value {new_value}")
+
 
 if __name__ == "__main__":
     # 🔒 Ensure HTTPS is used in production
