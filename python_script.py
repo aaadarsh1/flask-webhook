@@ -18,11 +18,13 @@ from google.oauth2.service_account import Credentials
 # 🔑 Load Google Sheets Credentials from Environment Variable
 service_account_info = json.loads(os.getenv("GOOGLE_CREDENTIALS"))
 
-# ✅ Convert JSON to Google Credentials
-credentials = Credentials.from_service_account_info(service_account_info)
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]  # ✅ Correct Scope for Google Sheets
 
-# ✅ Authenticate using pygsheets
+credentials = Credentials.from_service_account_info(service_account_info, scopes=SCOPES)  # 🔥 Set Scope
 gc = pygsheets.authorize(custom_credentials=credentials)
+
+# # ✅ Authenticate using pygsheets
+# gc = pygsheets.authorize(custom_credentials=credentials)
 
 # 📊 Google Sheets link
 SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1g_oLFRdOzuFxj78xo4waURNWvEvnnoq_ODkRfmtj1Zc/edit?gid=0#gid=0"
