@@ -15,7 +15,7 @@ limiter = Limiter(get_remote_address, app=app, default_limits=["5 per minute"])
 
 # 🔑 Load Google Sheets Credentials from Environment Variable
 service_account_info = json.loads(os.getenv("GOOGLE_CREDENTIALS"))
-gc = pygsheets.authorize(service_account_info=service_account_info)
+gc = pygsheets.authorize(custom_credentials=service_account_info)
 
 # 📊 Google Sheets link
 SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1g_oLFRdOzuFxj78xo4waURNWvEvnnoq_ODkRfmtj1Zc/edit?gid=0#gid=0"
