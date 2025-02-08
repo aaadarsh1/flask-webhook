@@ -2,3 +2,7 @@ Flask
 Flask-Limiter
 gunicorn
 pygsheets
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
